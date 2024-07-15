@@ -12,6 +12,7 @@ const data = [
 ]
 
 app.get("/api/people/:dni", (req, res)=>{
+    console.log("REQUEST", new Date());
     let processData = [];
     const observable = from(data);
     observable.pipe(
@@ -20,10 +21,12 @@ app.get("/api/people/:dni", (req, res)=>{
     )
     .subscribe({
         next:value=>{ processData.push(value) },
-        complete:()=>{ res.json(processData) }
+        complete:()=>{ 
+            console.log("RESPONSE", new Date());
+            res.json(processData) }
     })
 });
 
 app.listen(port, ()=>{
-    console.log("Listen in "+port);
+    console.log("Listen PEOPLE in "+port);
 });

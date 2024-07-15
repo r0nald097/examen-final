@@ -1,9 +1,9 @@
 const express = require("express")
 const  {observable, from} = require("rxjs")
-const {map} = require("rxjs/operators")
+const {map,filter} = require("rxjs/operators")
 
 const app = express()
-const port = 3000
+const port = 3001
 
 const data = [
     {id:5, dni:4376601, antecedentes:[] },
@@ -11,18 +11,22 @@ const data = [
     {id:7, dni:4376603, antecedentes:[{name:'pertubar via publica'}] },
 ]
 
-app.get("/api/people", (req, res)=>{
+app.get("/api/police/:dni", (req, res)=>{
+    console.log("REQUEST", new Date());
     let processData = [];
     const observable = from(data);
     observable.pipe(
-        map( user => ({id:user.id, dni:user.dni, name:user.name, processed:true}) )
+        filter(e=>e.dni==req.params.dni),
+        map( user => ({id:user.id, dni:user.dni, antecedentes:user.antecedentes}) )
     )
     .subscribe({
         next:value=>{ processData.push(value) },
-        complete:()=>{ res.json(processData) }
+        complete:()=>{ 
+            console.log("RESPONSE", new Date());
+            res.json(processData) }
     })
 });
 
 app.listen(port, ()=>{
-    console.log("Listen in "+port);
+    console.log("Listen POLICE in "+port);
 });
