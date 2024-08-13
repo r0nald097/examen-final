@@ -6,9 +6,9 @@ const app = express()
 const port = 3000
 
 const data = [
-    {id:1, dni:4376601, name:"Llerena"},
-    {id:2, dni:4376602, name:"Cardenas"},
-    {id:3, dni:4376603, name:"Valles"},
+    {id:1, dni:4324689, name:"LORENA"},
+    {id:2, dni:4866624, name:"KAREN"},
+    {id:3, dni:4776573, name:"ANGELA"},
 ]
 
 app.get("/api/people/:dni", (req, res)=>{
